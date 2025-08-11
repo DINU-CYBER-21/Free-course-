@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber‑Freedom Web Academy</title>
+  <style>
+    /* ====== Root & reset ====== */
+    :root {
+      --bg: #0b0f14;
+      --card: #0f1720;
+      --accent: #ff2d55;
+      --accent-2: #6be3ff;
+      --glass: rgba(255, 255, 255, 0.04);
+      --glass-2: rgba(255, 255, 255, 0.02);
+      --text: #e6eef6;
+      --radius: 18px;
+      --glass-pad: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(180deg, #050609 0%, #071122 60%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ====== Layout ====== */
+    .wrap {
+      max-width: 1100px;
+      margin: 36px auto;
+      padding: 28px;
+    }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 6px 20px rgba(107, 227, 255, 0.06);
+      font-weight: 800;
+      font-size: 24px;
+      animation: floaty 4s ease-in-out infinite;
+      user-select: none;
+    }
+    .brand h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+    .brand p {
+      margin: 0;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    /* ====== Hero & buttons ====== */
+    .hero {
+      margin-top: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+      padding: 22px;
+      border-radius: 16px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 22px;
+      align-items: center;
+    }
+    .hero-left h2 {
+      margin: 0 0 8px 0;
+      font-size: 22px;
+    }
+    .hero-left p {
+      margin: 0 0 14px 0;
+      color: rgba(230, 238, 246, 0.8);
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .btn {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent);
+      border: 1px solid var(--glass);
+      padding: 14px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.28s;
+      backdrop-filter: blur(6px);
+      user-select: none;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .btn:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+    }
+    .btn.active {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 15px var(--accent-2);
+      transform: translateY(-6px);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+    }
+    .btn .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+      user-select: none;
+    }
+    .btn .meta {
+      flex: 1;
+    }
+    .btn .meta strong {
+      display: block;
+      user-select: none;
+    }
+    .btn .meta span {
+      font-size: 12px;
+      color: rgba(230, 238, 246, 0.8);
+      user-select: none;
+    }
+
+    /* ====== Main content area ====== */
+    .main {
+      margin-top: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent);
+      padding: 20px;
+      border-radius: 14px;
+      min-height: 380px;
+      color: var(--text);
+    }
+    .page {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    .page.active {
+      display: block;
+    }
+    .page h3 {
+      margin-top: 0;
+      font-size: 20px;
+      user-select: text;
+    }
+    .page p, .page ul {
+      user-select: text;
+    }
+    .page ul {
+      padding-left: 20px;
+      margin-top: 0;
+    }
+
+    /* ====== Footer developer card ====== */
+    .dev {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: linear-gradient(180deg, #071226, #0b1620);
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+      font-size: 13px;
+      color: var(--text);
+      user-select: none;
+    }
+    .dev a {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ====== Animations ====== */
+    @keyframes floaty {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* ====== Responsive ====== */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-right {
+        order: 2;
+      }
+      .hero-right img {
+        max-height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo">CF</div>
+        <div>
+          <h1>Cyber‑Freedom Web Academy</h1>
+          <p>HTML • CSS • JavaScript • Python — සිංහලෙන් පුහුණුව</p>
+        </div>
+      </div>
+      <div class="actions" style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a class="btn" href="https://chat.whatsapp.com/ChGRQmkoe7C04oe8HjD6uz?mode=ac_t" target="_blank" rel="noopener" style="text-decoration:none; user-select:none;">Join WhatsApp Channel</a>
+        <a class="btn" href="https://wa.me/+94770690281?text=hy-dinuwa" style="text-decoration:none; user-select:none;">Contact Dev</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-left">
+        <h2>ආයුබෝවන් — CYBER-FEEDOM වෙත පිවිසෙන්න</h2>
+        <p>පහතින් ඇති පටන් 4 ක් ඔබට web development එකේ මුලික හැඳින්වීමෙන් ගැඹුරු දැනුම දක්වා ගවේෂණය කිරීමට උපකාරී වේ.</p>
+        <div class="buttons" id="btn-container">
+          <div class="btn pulse active" data-page="js" tabindex="0" role="button" aria-pressed="true">
+            <div class="icon">JS</div>
+            <div class="meta"><strong>JavaScript ඉතිහාසය & හැදෑරීම</strong><span>Programming language for web interaction</span></div>
+          </div>
+          <div class="btn pulse" data-page="html" tabindex="0" role="button" aria-pressed="false">
+            <div class="icon">HTML</div>
+            <div class="meta"><strong>HTML ගැන ඉගෙනිම</strong><span>Structure and semantic markup</span></div>
+          </div>
+          <div class="btn pulse" data-page="css" tabindex="0" role="button" aria-pressed="false">
+            <div class="icon">CSS</div>
+            <div class="meta"><strong>CSS ගැන ඉගෙනිම</strong><span>Styling and responsive layouts</span></div>
+          </div>
+          <div class="btn pulse" data-page="py" tabindex="0" role="button" aria-pressed="false">
+            <div class="icon">Py</div>
+            <div class="meta"><strong>Python — මුල සිට</strong><span>Backend & general programming</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <img src="https://files.catbox.moe/i3jr1p.jpg" alt="Cyber-Fre" />
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="page" id="page-js">
+        <h3>JavaScript ඉතිහාසය & හැදෑරීම</h3>
+        <p>JavaScript කියන්නේ web page වල අන්තර්ක්‍රියාව සහ වැඩි දියුණු විශේෂාංග ලබා දෙන programming language එකක්. 1995 වර්ෂයේ Brendan Eich විසින් නිර්මාණය කරන ලදී.</p>
+        <ul>
+          <li>Web browsers වල run වෙන first programming language එක</li>
+          <li>Dynamic content generate කරන්න ඉතා සුදුසුයි</li>
+          <li>DOM manipulation, events handling සහ asynchronous programming සමඟ</li>
+          <li>JavaScript (JS) කියන්නේ programming language එකක්.</li>
+          <li>මුලින්ම 1995දී Brendan Eich (Netscape) විසින් 10 දිනක් ඇතුළත නිර්මාණය කළා.</li>
+          <li>මුල් නම Mocha → LiveScript → JavaScript ලෙස වෙනස් වුණා.</li>
+          <li>Java language එකට සම්බන්ධයක් නෑ. නම marketing එකක් විතරයි.</li>
+          <li>JS භාවිතා කරන්නේ HTML + CSS එක්ක, websites interactive කරන්න.</li>
+          <li>---</li>
+          <li>JS භූමිකා</li>
+          <li>JS එක Frontend සහ Backend දෙකම cover කරනවා.</li>
+          <li>Frontend (Browser-side)</li>
+          <li>Animations, buttons, sliders</li>
+          <li>Forms validation (error check)</li>
+          <li>Games, chat boxes, live updates</li>
+          <li>Backend (Server-side with Node.js)</li>
+          <li>Databases connect කිරීම</li>
+          <li>APIs build කිරීම</li>
+          <li>Real-time applications (WhatsApp, Messenger වගේ)</li>
+          <li>---</li>
+          <li>JS භාවිතා කරන තැන්</li>
+          <li>Websites (YouTube, Facebook, Twitter)</li>
+          <li>Mobile Apps (React Native, Ionic)</li>
+          <li>Desktop Apps (VS Code, Discord — Electron.js)</li>
+          <li>Games (Phaser.js, Three.js)</li>
+          <li>IoT Devices (Johnny-Five.js)</li>
+          <li>---</li>
+          <li>JavaScript වල ලක්ෂණ</li>
+          <li>Interpreted – Direct browser එකෙන් run වෙනවා.</li>
+          <li>Event-driven – User actions වලට instant response.</li>
+          <li>Dynamic typing – Variable type auto decide වෙනවා</li>
+          <li>Multi-paradigm – OOP + Functional programming දෙකම support කරනවා.</li>
+          <li>Cross-platform – Windows, Mac, Linux, Android, iOS.</li>
+          <li>---</li>
+          <li>JS ඉතිහාසයේ වැදගත් සිදුවීම්</li>
+          <li>වර්ෂය | සිදුවීම</li>
+          <li>1995 | Brendan Eich, Netscape Navigator වල JavaScript හදයි</li>
+          <li>1996 | Microsoft, JScript හදයි</li>
+          <li>1997 | ECMAScript (ECMA International) standard</li>
+          <li>2009 | Node.js release</li>
+          <li>2015 | ES6 (let, const, arrow functions, classes)</li>
+          <li>---</li>
+          <li>JS Syntax මූලික කරුණු</li>
+          <li>Variables</li>
+          <li>let name = "John"; // change කළ හැක</li>
+          <li>const age = 25; // change නොහැක</li>
+          <li>var city = "Colombo"; // old way</li>
+          <li>Data Types</li>
+          <li>String ("Hello")</li>
+          <li>Number (25)</li>
+          <li>Boolean (true / false)</li>
+          <li>Object ({name: "John", age: 25})</li>
+          <li>Array ([1, 2, 3])</li>
+          <li>Null (null)</li>
+          <li>Undefined (undefined)</li>
+          <li>Operators</li>
+          <li>let x = 5 + 3; // 8</li>
+          <li>let y = x * 2; // 16</li>
+          <li>Conditions</li>
+          <li>if (age >= 18) { console.log("Adult"); } else { console.log("Child"); }</li>
+          <li>Loops</li>
+          <li>for (let i = 0; i < 5; i++) { console.log(i); }</li>
+          <li>Functions</li>
+          <li>function greet(name) { return "Hello " + name; }</li>
+          <li>console.log(greet("John"));</li>
+          <li>---</li>
+          <li>Document Object Model (DOM)</li>
+          <li>JavaScript එක HTML සමග වැඩ කරන විදිහ:</li>
+          <li>&lt;button onclick="alert('Hello!')"&gt;Click Me&lt;/button&gt;</li>
+          <li>document.getElementById("myBtn").addEventListener("click", function(){ alert("Button clicked!"); });</li>
+          <li>---</li>
+          <li>Popular JS Frameworks & Libraries</li>
+          <li>Frontend → React.js, Vue.js, Angular</li>
+          <li>Backend → Node.js, Express.js</li>
+          <li>UI Libraries → jQuery, Bootstrap</li>
+          <li>Games → Phaser.js, Three.js</li>
+          <li>---</li>
+          <li>JavaScript Version History</li>
+          <li>ES5 – 2009</li>
+          <li>ES6 / ES2015 – let/const, arrow functions, classes, template literals</li>
+          <li>Latest – Optional chaining, async/await improvements</li>
+          <li>---</li>
+          <li>JavaScript ඉගෙනගන්න Step-by-Step</li>
+          <li>HTML & CSS basics ඉගෙනගන්න</li>
+          <li>JavaScript Fundamentals</li>
+          <li>Variables, conditions, loops</li>
+          <li>DOM Manipulation</li>
+          <li>Events (click, mouseover, keypress)</li>
+          <li>Functions & Objects</li>
+          <li>Array & Object methods</li>
+          <li>Async JavaScript (setTimeout, Promises, async/await)</li>
+          <li>APIs & JSON</li>
+          <li>Mini Projects (calculator, todo list, weather app)</li>
+          <li>Frameworks (React, Vue, Angular)</li>
+          <li>---</li>
+          <li>උදාහරණ Project Ideas</li>
+          <li>Calculator</li>
+          <li>Digital Clock</li>
+          <li>To-do List</li>
+          <li>Image Slider</li>
+          <li>Chat App (Socket.io)</li>
+          <li>Game (Flappy Bird clone)</li>
+        </ul>
+      </div>
+
+      <div class="page" id="page-html">
+        <h3>HTML ගැන ඉගෙනිම</h3>
+        <p>HTML කියන්නේ web page එකේ structure සහ semantic markup එක සදහා භාවිතා කරන markup language එකකි.</p>
+        <ul>
+          <li>Headings, paragraphs, lists, links, images</li>
+          <li>Forms, tables, semantic tags</li>
+          <li>Accessibility and SEO සඳහා වැදගත්</li>
+          <li>HTML (HyperText Markup Language) යනු වෙබ් පිටු නිර්මාණය කිරීම සඳහා භාවිතා වන ප්‍රමුඛ භාෂාවකි. එය වෙබ් පිටුවක ආකෘතිය (structure) සහ අන්තර්ගතය (content) නිර්වචනය කරයි. HTML යනු වෙබ් අඩවි සඳහා පදනම වන අතර, CSS (Cascading Style Sheets) සහ JavaScript වැනි තාක්ෂණයන් සමඟ එක්ව භාවිතා වේ. මෙම පාඩමෙන් HTML ගැන සම්පූර්ණ විස්තරයක් ලබාදෙන අතර, එය ආරම්භකයින්ට පහසුවෙන් තේරුම් ගත හැකි ආකාරයෙන් ඉදිරිපත් කරමි.</li>
+          <li>HTML යනු මොකක්ද?</li>
+          <li>HyperText: වෙබ් පිටුවල එකිනෙකට සම්බන්ධ වන ලින්ක් (links) හරහා ගමන් කිරීමට ඉඩ සලසයි.</li>
+          <li>Markup Language: HTML භාවිතා කරන්නේ ටැග් (tags) භාවිතයෙන් අන්තර්ගතයේ ආකෘතිය විස්තර කිරීමටයි.</li>
+          <li>HTML යනු වෙබ් පිටුවක "අස්ථි ආකෘතිය" (skeleton) ලබා දෙන භාෂාවකි, එහිදී CSS මගින් එය අලංකාර කරන අතර JavaScript මගින් එය ගතික (dynamic) කරයි.</li>
+          <li>HTML හි මූලික ආකෘතිය</li>
+          <li>HTML ගොනුවක මූලික ආකෘතිය පහත ආකාරයෙන් පවතී:</li>
+          <li>&lt;!DOCTYPE html&gt;</li>
+          <li>&lt;html lang="en"&gt;</li>
+          <li>&lt;head&gt;</li>
+          <li>&lt;meta charset="UTF-8"&gt;</li>
+          <li>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</li>
+          <li>&lt;title&gt;මගේ පළමු වෙබ් පිටුව&lt;/title&gt;</li>
+          <li>&lt;/head&gt;</li>
+          <li>&lt;body&gt;</li>
+          <li>&lt;h1&gt;සාදරයෙන් පිළිගනිමු!&lt;/h1&gt;</li>
+          <li>&lt;p&gt;මෙය මගේ පළමු HTML පිටුවයි.&lt;/p&gt;</li>
+          <li>&lt;/body&gt;</li>
+          <li>&lt;/html&gt;</li>
+          <li>විස්තරය:</li>
+          <li>&lt;!DOCTYPE html&gt;: HTML ගොනුව HTML5 ආකෘතියෙන් ලියා ඇති බව බ්‍රව්සරයට දන්වයි.</li>
+          <li>&lt;html lang="en"&gt;: HTML ගොනුවේ මූලික ටැගය වන අතර, භාෂාව (language) නිර්වචනය කරයි (මෙහිදී ඉංග්‍රීසි).</li>
+          <li>&lt;head&gt;: වෙබ් පිටුවේ මෙටා තොරතුරු (metadata) අඩංගු වේ. උදා: &lt;meta charset="UTF-8"&gt; යනු භාවිතා කරන අක්ෂර කට්ටලයයි.</li>
+          <li>&lt;title&gt;: බ්‍රව්සරයේ ටැබ් එකේ හෝ මාතෘකාවේ දිස්වන නම.</li>
+          <li>&lt;body&gt;: වෙබ් පිටුවේ දිස්වන අන්තර්ගතය (content) මෙහි ඇතුළත් වේ.</li>
+          <li>HTML ටැග් (Tags)</li>
+          <li>HTML ටැග් යනු HTML හි මූලික ගඩොල් (building blocks) වේ. ටැග් යනු &lt; සහ &gt; අතර ලියැවෙන වචන හෝ අකුරු වන අතර, ඒවා යුගල වශයෙන් (opening and closing tags) භාවිතා වේ.</li>
+          <li>උදාහරණ:</li>
+          <li>&lt;p&gt;: ඡේදයක් (paragraph) නිර්මාණය කරයි.</li>
+          <li>&lt;h1&gt;: ප්‍රධාන ශීර්ෂය (heading) නිර්මාණය කරයි.</li>
+          <li>&lt;div&gt;: අන්තර්ගතය බෙදීමට භාවිතා වන කන්ටේනරයකි.</li>
+          <li>&lt;img&gt;: රූපයක් එක් කිරීමට භාවිතා වේ (මෙය self-closing ටැගයකි).</li>
+          <li>ටැග් ආකෘතිය:</li>
+          <li>&lt;opening_tag&gt;අන්තර්ගතය&lt;/closing_tag&gt;</li>
+          <li>උදා: &lt;p&gt;මෙය ඡේදයකි.&lt;/p&gt;</li>
+          <li>Self-Closing Tags:</li>
+          <li>සමහර ටැග්වලට closing tag අවශ්‍ය නොවේ:</li>
+          <li>&lt;img src="image.jpg" alt="විස්තරය"&gt;</li>
+          <li>&lt;br&gt; <!-- Line break --></li>
+          <li>&lt;hr&gt; <!-- Horizontal line --></li>
+          <li>HTML ගුණාංග (Attributes)</li>
+          <li>ටැග්වලට ගුණාංග එක් කළ හැකි අතර, ඒවා ටැග්වල තවත් තොරතුරු ලබා දෙයි.</li>
+          <li>උදාහරණ:</li>
+          <li>&lt;a href="https://www.example.com"&gt;මෙතන ක්ලික් කරන්න&lt;/a&gt;</li>
+          <li>href යනු ගුණාංගයකි (attribute), එය ලින්ක් එකේ ගමනාන්තය දක්වයි.</li>
+          <li>පොදු ගුණාංග:</li>
+          <li>id: එක් එක් ටැගයට ඒකීය හඳුනාගැනීමක් ලබා දෙයි.</li>
+          <li>class: CSS හෝ JavaScript හරහා ටැග් එකකට style හෝ ගතික බව එක් කිරීමට.</li>
+          <li>src: රූප හෝ ගොනු සඳහා ගමනාන්තය.</li>
+          <li>alt: රූපයක විස්තරය (accessibility සඳහා).</li>
+          <li>HTML හි ප්‍රධාන ටැග්</li>
+          <li>ශීර්ෂ (Headings):</li>
+          <li>&lt;h1&gt;ප්‍රධාන ශීර්ෂය&lt;/h1&gt;</li>
+          <li>&lt;h2&gt;උප ශීර්ෂය&lt;/h2&gt;</li>
+          <li>&lt;!-- h1 සිට h6 දක්වා ඇත --&gt;</li>
+          <li>ඡේද (Paragraphs):</li>
+          <li>&lt;p&gt;මෙය ඡේදයකි.&lt;/p&gt;</li>
+          <li>ලින්ක් (Links):</li>
+          <li>&lt;a href="https://www.example.com"&gt;වෙබ් අඩවියට පිවිසෙන්න&lt;/a&gt;</li>
+          <li>රූප (Images):</li>
+          <li>&lt;img src="image.jpg" alt="මගේ රූපය" width="200"&gt;</li>
+          <li>ලැයිස්තු (Lists):</li>
+          <li>අනුපිළිවෙල ලැයිස්තු (Ordered List):</li>
+          <li>&lt;ol&gt;</li>
+          <li>&lt;li&gt;අයිතම 1&lt;/li&gt;</li>
+          <li>&lt;li&gt;අයිතම 2&lt;/li&gt;</li>
+          <li>&lt;/ol&gt;</li>
+          <li>අනුපිළිවෙල රහිත ලැයිස්තු (Unordered List):</li>
+          <li>&lt;ul&gt;</li>
+          <li>&lt;li&gt;අයිතම 1&lt;/li&gt;</li>
+          <li>&lt;li&gt;අයිතම 2&lt;/li&gt;</li>
+          <li>&lt;/ul&gt;</li>
+          <li>වගු (Tables):</li>
+          <li>&lt;table border="1"&gt;</li>
+          <li>&lt;tr&gt;</li>
+          <li>&lt;th&gt;ශීර්ෂය 1&lt;/th&gt;</li>
+          <li>&lt;th&gt;ශීර්ෂය 2&lt;/th&gt;</li>
+          <li>&lt;/tr&gt;</li>
+          <li>&lt;tr&gt;</li>
+          <li>&lt;td&gt;දත්ත 1&lt;/td&gt;</li>
+          <li>&lt;td&gt;දත්ත 2&lt;/td&gt;</li>
+          <li>&lt;/tr&gt;</li>
+          <li>&lt;/table&gt;</li>
+          <li>ආකෘති (Forms):</li>
+          <li>&lt;form action="/submit" method="post"&gt;</li>
+          <li>&lt;label for="name"&gt;නම:&lt;/label&gt;</li>
+          <li>&lt;input type="text" id="name" name="name"&gt;</li>
+          <li>&lt;input type="submit" value="ඉදිරිපත් කරන්න"&gt;</li>
+          <li>&lt;/form&gt;</li>
+          <li>HTML හි Semantic Elements</li>
+          <li>HTML5 හිදී semantic elements භාවිතා වන අතර, ඒවා වඩාත් අර්ථවත් ආකෘතියක් ලබා දෙයි.</li>
+          <li>&lt;header&gt;: වෙබ් පිටුවේ හෝ කොටසක මුල් තීරුව.</li>
+          <li>&lt;nav&gt;: සංචලන බාර් (navigation bar).</li>
+          <li>&lt;main&gt;: ප්‍රධාන අන්තර්ගතය.</li>
+          <li>&lt;article&gt;: ස්වාධීන අන්තර්ගතය (බ්ලොග් ලිපියක් වැනි).</li>
+          <li>&lt;section&gt;: තේමාවක් යටතේ අන්තර්ගතය බෙදීම.</li>
+          <li>&lt;footer&gt;: වෙබ් පිටුවේ හෝ කොටසක පාදකය.</li>
+          <li>උදාහරණ:</li>
+          <li>&lt;header&gt;</li>
+          <li>&lt;h1&gt;මගේ වෙබ් අඩවිය&lt;/h1&gt;</li>
+          <li>&lt;/header&gt;</li>
+          <li>&lt;nav&gt;</li>
+          <li>&lt;a href="/home"&gt;මුල් පිටුව&lt;/a&gt;</li>
+          <li>&lt;a href="/about"&gt;ගැන&lt;/a&gt;</li>
+          <li>&lt;/nav&gt;</li>
+          <li>&lt;main&gt;</li>
+          <li>&lt;article&gt;</li>
+          <li>&lt;h2&gt;ලිපියක ශීර්ෂය&lt;/h2&gt;</li>
+          <li>&lt;p&gt;ලිපියේ අන්තර්ගතය.&lt;/p&gt;</li>
+          <li>&lt;/article&gt;</li>
+          <li>&lt;/main&gt;</li>
+          <li>&lt;footer&gt;</li>
+          <li>&lt;p&gt;© 2025 මගේ වෙබ් අඩවිය&lt;/p&gt;</li>
+          <li>&lt;/footer&gt;</li>
+          <li>HTML සමඟ CSS සහ JavaScript භාවිතය</li>
+          <li>CSS: HTML හි අන්තර්ගතයට ආකෘතිකරණය (styling) එක් කිරීමට.</li>
+          <li>&lt;style&gt;</li>
+          <li>h1 { color: blue; }</li>
+          <li>&lt;/style&gt;</li>
+          <li>JavaScript: ගතික බව (interactivity) එක් කිරීමට.</li>
+          <li>&lt;script&gt;</li>
+          <li>alert("සාදරයෙන් පිළිගනිමු!");</li>
+          <li>&lt;/script&gt;</li>
+          <li>HTML ගොනුවක් නිර්මාණය කරමු</li>
+          <li>ඔබේ පරිගණකයේ text editor එකක් (Notepad, VS Code) විවෘත කරන්න.</li>
+          <li>ඉහත දක්වා ඇති HTML කේතය ලියන්න.</li>
+          <li>ගොනුව .html ලෙස සුරකින්න (උදා: index.html).</li>
+          <li>එය බ්‍රව්සරයකින් (Chrome, Firefox) විවෘත කර බලන්න.</li>
+          <li>HTML ඉගෙන ගැනීමට උපදෙස්</li>
+          <li>Online Resources:</li>
+          <li>W3Schools (https://www.w3schools.com/html/)</li>
+          <li>MDN Web Docs (https://developer.mozilla.org/en-US/docs/Web/HTML)</li>
+          <li>Tools:</li>
+          <li>Visual Studio Code: HTML ලිවීමට පහසු code editor.</li>
+          <li>Browser DevTools: HTML/CSS බලන්න (Right-click > Inspect).</li>
+          <li>පුහුණුව: කුඩා වෙබ් පිටු නිර්මාණය කර බලන්න.</li>
+          <li>නිගමනය</li>
+          <li>HTML යනු වෙබ් නිර්මාණයේ පළමු පියවරයි. එය ඉගෙන ගැනීමෙන් ඔබට වෙබ් පිටුවක ආකෘතිය නිර්මාණය කළ හැකිය. CSS සහ JavaScript ඉගෙන ගැනීමෙන් ඔබට තවත් ආකර්ශනීය හා ගතික වෙබ් අඩවි නිර්මාණය කළ හැක.</li>
+        </ul>
+      </div>
+
+      <div class="page" id="page-css">
+        <h3>CSS ගැන ඉගෙනිම</h3>
+        <p>CSS (Cascading Style Sheets) යනු වෙබ් පිටුවල අන්තර්ගතයට ආකෘතිකරණය (styling) සහ රූපලාවන්‍ය (visual appeal) එක් කිරීමට භාවිතා වන භාෂාවකි. HTML ලබා දෙන ව්‍යුහයට (structure) CSS මගින් වර්ණ, පිරිසැලසුම (layout), සහ ගතික බව එක් කරයි. CSS භාවිතයෙන් වෙබ් අඩවි responsive (උපාංග විවිධත්වයට ගැලපෙන) සහ ආකර්ශනීය බවට පත් කළ හැක.</p>
+        <ul>
+          <li>වර්ණ, ෆොන්ට, පරතර, පසුබිම් (backgrounds) එකතු කිරීම</li>
+          <li>Box model, flexbox, grid layouts</li>
+          <li>Media queries භාවිතයෙන් responsive design</li>
+          <li>CSS යනු මොකක්ද?</li>
+          <li>CSS යනු Cascading Style Sheets යන්නෙහි කෙටි යෙදුමකි.</li>
+          <li>"Cascading" යනු styles එකිනෙකට බලපෑම් කරන ආකාරයයි (උදා: එක් style එකක් තවත් එකකට override විය හැක).</li>
+          <li>CSS HTML හි අන්තර්ගතයට රූපලාවන්‍ය එක් කරන අතර, responsive design සඳහා බහුලව භාවිතා වේ.</li>
+          <li>---</li>
+          <li>CSS ඉතිහාසය</li>
+          <li>1994: Håkon Wium Lie විසින් CSS යෝජනා කරන ලදී.</li>
+          <li>1996: CSS Level 1 (CSS1) නිකුත් වුණා (W3C).</li>
+          <li>1998: CSS Level 2 (CSS2) – positioning, z-index එකතු වුණා.</li>
+          <li>2011: CSS3 – animations, flexbox, grid, media queries එකතු වුණා.</li>
+          <li>වර්තමානය: CSS4 නැත, නමුත් CSS modules (flexbox, grid, custom properties) ලෙස නව features එකතු වෙනවා.</li>
+          <li>---</li>
+          <li>CSS භාවිතා කරන තැන්</li>
+          <li>Websites (වර්ණ, layout, fonts)</li>
+          <li>Mobile Apps (frameworks වලදී)</li>
+          <li>UI design (buttons, cards, navigation bars)</li>
+          <li>Animations (hover effects, transitions)</li>
+          <li>Print media (PDF layouts)</li>
+          <li>---</li>
+          <li>CSS වල ලක්ෂණ</li>
+          <li>Declarative: Rules ලියා styles යොදයි.</li>
+          <li>Cascading: Styles එකිනෙකට බලපායි (specificity, inheritance).</li>
+          <li>Responsive: Media queries භාවිතයෙන් උපාංග විවිධත්වයට ගැලපේ.</li>
+          <li>Cross-browser: Chrome, Firefox, Safari හි run වේ.</li>
+          <li>Modular: CSS variables, preprocessors (Sass, Less) support කරයි.</li>
+          <li>---</li>
+          <li>CSS Syntax මූලික කරුණු</li>
+          <li>CSS Rule Structure:</li>
+          <li>selector { property: value; }</li>
+          <li>උදාහරණ:</li>
+          <li>h1 { color: blue; font-size: 24px; }</li>
+          <li>Selectors:</li>
+          <li>Element: h1, p, div</li>
+          <li>Class: .my-class</li>
+          <li>ID: #my-id</li>
+          <li>Attribute: [type="text"]</li>
+          <li>Pseudo-classes: :hover, :active</li>
+          <li>Box Model:</li>
+          <li>Content, padding, border, margin</li>
+          <li>උදා: div { margin: 10px; padding: 15px; border: 1px solid black; }</li>
+          <li>Display Properties:</li>
+          <li>block: &lt;div&gt;, &lt;p&gt;</li>
+          <li>inline: &lt;span&gt;, &lt;a&gt;</li>
+          <li>flex: display: flex;</li>
+          <li>grid: display: grid;</li>
+          <li>Positioning:</li>
+          <li>static, relative, absolute, fixed, sticky</li>
+          <li>උදා: .box { position: absolute; top: 10px; left: 10px; }</li>
+          <li>Media Queries:</li>
+          <li>@media (max-width: 600px) { body { font-size: 16px; } }</li>
+          <li>---</li>
+          <li>CSS යොදන ආකාර</li>
+          <li>Internal:</li>
+          <li>&lt;style&gt; h1 { color: red; } &lt;/style&gt;</li>
+          <li>External:</li>
+          <li>&lt;link rel="stylesheet" href="styles.css"&gt;</li>
+          <li>Inline:</li>
+          <li>&lt;h1 style="color: blue;"&gt;Hello&lt;/h1&gt;</li>
+          <li>---</li>
+          <li>Popular CSS Frameworks & Tools</li>
+          <li>Bootstrap: Responsive grid, components</li>
+          <li>Tailwind CSS: Utility-first framework</li>
+          <li>Sass: CSS preprocessor (variables, nesting)</li>
+          <li>PostCSS: CSS transformations</li>
+          <li>---</li>
+          <li>CSS ඉතිහාසයේ වැදගත් සිදුවීම්</li>
+          <li>වර්ෂය | සිදුවීම</li>
+          <li>1994 | Håkon Wium Lie CSS යෝජනා කරයි</li>
+          <li>1996 | CSS1 නිකුත් වේ</li>
+          <li>1998 | CSS2 – positioning, z-index</li>
+          <li>2011 | CSS3 – flexbox, grid, animations</li>
+          <li>2020+ | CSS custom properties, subgrid</li>
+          <li>---</li>
+          <li>CSS ඉගෙනගන්න Step-by-Step</li>
+          <li>HTML basics ඉගෙනගන්න</li>
+          <li>CSS Fundamentals</li>
+          <li>Selectors, properties, values</li>
+          <li>Box Model</li>
+          <li>Flexbox & Grid</li>
+          <li>Responsive Design (media queries)</li>
+          <li>Animations & Transitions</li>
+          <li>Pseudo-classes & Pseudo-elements</li>
+          <li>CSS Frameworks (Bootstrap, Tailwind)</li>
+          <li>Mini Projects (landing page, card design)</li>
+          <li>Advanced Topics (Sass, CSS-in-JS)</li>
+          <li>---</li>
+          <li>උදාහරණ Project Ideas</li>
+          <li>Responsive Landing Page</li>
+          <li>Navigation Bar with Hover Effects</li>
+          <li>Photo Gallery with Grid</li>
+          <li>Animated Button Styles</li>
+          <li>Portfolio Website</li>
+          <li>---</li>
+          <li>Online Resources</li>
+          <li>W3Schools (https://www.w3schools.com/css/)</li>
+          <li>MDN Web Docs (https://developer.mozilla.org/en-US/docs/Web/CSS)</li>
+          <li>CSS-Tricks (https://css-tricks.com/)</li>
+          <li>Tools:</li>
+          <li>Visual Studio Code (CSS auto-complete)</li>
+          <li>Browser DevTools (Inspect styles)</li>
+          <li>CodePen (Test CSS snippets)</li>
+          <li>---</li>
+          <li>නිගමනය</li>
+          <li>CSS යනු වෙබ් අඩවි ආකර්ශනීය හා responsive කිරීමට අත්‍යවශ්‍යයි. HTML ඉගෙන ගත් පසු CSS ඉගෙන ගැනීමෙන් ඔබට professional වෙබ් අඩවි නිර්මාණය කළ හැක.</li>
+        </ul>
+      </div>
+
+      <div class="page" id="page-py">
+        <h3>Python — මුල සිට</h3>
+        <p>Python යනු general-purpose programming language එකකි, එය එහි සරල syntax සහ ඉහළ readability නිසා ජනප්‍රියයි. Backend development, automation, data science, සහ machine learning සඳහා බහුලව භාවිතා වේ.</p>
+        <ul>
+          <li>Simple syntax, readable code</li>
+          <li>Data types, functions, OOP</li>
+          <li>Web frameworks (Django, Flask)</li>
+          <li>Python යනු මොකක්ද?</li>
+          <li>Python යනු high-level, interpreted programming language එකකි.</li>
+          <li>1991දී Guido van Rossum විසින් නිර්මාණය කරන ලදී.</li>
+          <li>Readability සහ simplicity මත බලවත් අවධානය යොමු කර ඇත.</li>
+          <li>Cross-platform: Windows, Mac, Linux, Raspberry Pi.</li>
+          <li>---</li>
+          <li>Python භාවිතා කරන තැන්</li>
+          <li>Web Development (Django, Flask)</li>
+          <li>Data Science (Pandas, NumPy)</li>
+          <li>Machine Learning (TensorFlow, Scikit-learn)</li>
+          <li>Automation (scripts, task scheduling)</li>
+          <li>Game Development (Pygame)</li>
+          <li>IoT (MicroPython)</li>
+          <li>---</li>
+          <li>Python ඉතිහාසය</li>
+          <li>1991: Python 0.9.0 නිකුත් වුණා.</li>
+          <li>2000: Python 2.0 – list comprehensions, garbage collection.</li>
+          <li>2008: Python 3.0 – major syntax changes, backward incompatible.</li>
+          <li>2020: Python 2.x support අවසන්.</li>
+          <li>වර්තමානය: Python 3.x භාවිතය (3.11, 3.12).</li>
+          <li>---</li>
+          <li>Python ලක්ෂණ</li>
+          <li>Interpreted: Compiler අවශ්‍ය නැත, direct run.</li>
+          <li>Dynamic Typing: Variable types auto-detect වේ.</li>
+          <li>Object-Oriented: Classes, inheritance support.</li>
+          <li>Extensible: C/C++ integration.</li>
+          <li>Large Standard Library: Built-in modules (math, os, datetime).</li>
+          <li>---</li>
+          <li>Python Syntax මූලික කරුණු</li>
+          <li>Variables:</li>
+          <li>name = "John" # String</li>
+          <li>age = 25 # Integer</li>
+          <li>price = 19.99 # Float</li>
+          <li>Data Types:</li>
+          <li>String: "Hello"</li>
+          <li>Integer: 25</li>
+          <li>Float: 19.99</li>
+          <li>List: [1, 2, 3]</li>
+          <li>Tuple: (1, 2, 3)</li>
+          <li>Dictionary: {"name": "John", "age": 25}</li>
+          <li>Boolean: True / False</li>
+          <li>Conditions:</li>
+          <li>if age >= 18:</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;print("Adult")</li>
+          <li>else:</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;print("Child")</li>
+          <li>Loops:</li>
+          <li>for i in range(5):</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;print(i)</li>
+          <li>Functions:</li>
+          <li>def greet(name):</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;return f"Hello {name}"</li>
+          <li>print(greet("John"))</li>
+          <li>Classes:</li>
+          <li>class Person:</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, name):</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.name = name</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;def say_hi(self):</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Hi, I'm {self.name}")</li>
+          <li>p = Person("John")</li>
+          <li>p.say_hi()</li>
+          <li>---</li>
+          <li>Popular Python Libraries & Frameworks</li>
+          <li>Web: Django, Flask</li>
+          <li>Data Science: Pandas, NumPy, Matplotlib</li>
+          <li>Machine Learning: TensorFlow, PyTorch</li>
+          <li>Automation: PyAutoGUI, Selenium</li>
+          <li>Game Development: Pygame</li>
+          <li>---</li>
+          <li>Python ඉතිහාසයේ වැදගත් සිදුවීම්</li>
+          <li>වර්ෂය | සිදුවීම</li>
+          <li>1991 | Guido van Rossum Python 0.9.0 නිකුත් කරයි</li>
+          <li>2000 | Python 2.0 – list comprehensions</li>
+          <li>2008 | Python 3.0 – major syntax changes</li>
+          <li>2020 | Python 2.x support අවසන්</li>
+          <li>2023 | Python 3.11 – performance improvements</li>
+          <li>---</li>
+          <li>Python ඉගෙනගන්න Step-by-Step</li>
+          <li>Python Installation (python.org)</li>
+          <li>Fundamentals</li>
+          <li>Variables, data types, operators</li>
+          <li>Conditions & Loops</li>
+          <li>Functions & Modules</li>
+          <li>Object-Oriented Programming</li>
+          <li>File Handling</li>
+          <li>Libraries (Pandas, Requests)</li>
+          <li>Web Development (Flask/Django)</li>
+          <li>Data Science or Automation Projects</li>
+          <li>Mini Projects (calculator, web scraper)</li>
+          <li>Advanced Topics (async programming, machine learning)</li>
+          <li>---</li>
+          <li>උදාහරණ Project Ideas</li>
+          <li>Simple Calculator</li>
+          <li>To-do List CLI App</li>
+          <li>Web Scraper (BeautifulSoup)</li>
+          <li>Blog Website (Flask/Django)</li>
+          <li>Data Visualization (Matplotlib)</li>
+          <li>Simple Game (Pygame)</li>
+          <li>---</li>
+          <li>Online Resources</li>
+          <li>Python.org (https://www.python.org/)</li>
+          <li>Real Python (https://realpython.com/)</li>
+          <li>FreeCodeCamp (https://www.freecodecamp.org/learn/)</li>
+          <li>Tools:</li>
+          <li>PyCharm, VS Code</li>
+          <li>Jupyter Notebook (Data Science)</li>
+          <li>Repl.it (Online coding)</li>
+          <li>---</li>
+          <li>නිගමනය</li>
+          <li>Python යනු ආරම්භකයින්ට සහ professionals ට ගැලපෙන versatile language එකකි. Web development, data science, හෝ automation සඳහා Python ඉගෙන ගැනීමෙන් ඔබට බලවත් applications නිර්මාණය කළ හැක.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dev" aria-label="Developer contact info">
+    <div>Developer</div>
+    <div><a href="https://chat.whatsapp.com/ChGRQmkoe7C04oe8HjD6uz?mode=ac_t" target="_blank" rel="noopener">Join Channel</a></div>
+    <div>Call: <a href="tel:+94770690281">+94 77 069 0281</a></div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.btn[data-page]');
+    const pages = document.querySelectorAll('.page');
+
+    // Function to activate page & button based on pageId
+    function activatePage(pageId) {
+      buttons.forEach(btn => {
+        const isActive = btn.getAttribute('data-page') === pageId;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', isActive);
+      });
+      pages.forEach(p => {
+        p.classList.toggle('active', p.id === 'page-' + pageId);
+      });
+    }
+
+    // Initial load: check hash or default to js
+    function initialLoad() {
+      const hash = location.hash.replace('#', '');
+      if (hash && [...buttons].some(btn => btn.getAttribute('data-page') === hash)) {
+        activatePage(hash);
+      } else {
+        activatePage('js');
+        history.replaceState(null, '', '#js');
+      }
+    }
+
+    // On button click
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pageId = btn.getAttribute('data-page');
+        if (pageId) {
+          activatePage(pageId);
+          history.pushState(null, '', '#' + pageId);
+        }
+      });
+      // Allow keyboard activation
+      btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    });
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', () => {
+      const hash = location.hash.replace('#', '');
+      if (hash && [...buttons].some(btn => btn.getAttribute('data-page') === hash)) {
+        activatePage(hash);
+      } else {
+        activatePage('js');
+      }
+    });
+
+    // Run on page load
+    initialLoad();
+  </script>
+</body>
+</html>
